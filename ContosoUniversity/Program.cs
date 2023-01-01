@@ -34,7 +34,7 @@ using (IServiceScope scope = app.Services.CreateScope())
 
     SchoolContext context = services.GetRequiredService<SchoolContext>();
     context.Database.EnsureCreated();
-    //DbSetInitializer.Initialize(context);
+    DbInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();
