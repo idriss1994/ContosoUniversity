@@ -30,7 +30,7 @@ namespace ContosoUniversity.Pages.Students
 
             Student = await _context.Students
                 .Include(s => s.Enrollments)
-                .ThenInclude(st => st.Course)
+                .ThenInclude(e => e.Course)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(stud => stud.ID == id);
 
