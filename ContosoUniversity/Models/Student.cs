@@ -10,7 +10,7 @@ namespace ContosoUniversity.Models
 
         [DataType(DataType.Date)]
         public DateTime EnrollmentDate { get; set; }
-        public string Secret { get; set; }
+        //public string Secret { get; set; }
 
         public ICollection<Enrollment> Enrollments { get; set; }
     }
