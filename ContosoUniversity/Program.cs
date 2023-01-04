@@ -33,7 +33,6 @@ using (IServiceScope scope = app.Services.CreateScope())
     IServiceProvider services = scope.ServiceProvider;
 
     SchoolContext context = services.GetRequiredService<SchoolContext>();
-    context.Database.EnsureCreated();
     DbInitializer.Initialize(context);
 }
 
