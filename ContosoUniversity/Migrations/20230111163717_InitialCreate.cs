@@ -48,7 +48,8 @@ namespace ContosoUniversity.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Budget = table.Column<decimal>(type: "money", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    InstructorID = table.Column<int>(type: "int", nullable: true)
+                    InstructorID = table.Column<int>(type: "int", nullable: true),
+                    ConcurrencyToken = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,17 +65,15 @@ namespace ContosoUniversity.Migrations
                 name: "OfficeAssignments",
                 columns: table => new
                 {
-                    InstructorID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    InstructorID1 = table.Column<int>(type: "int", nullable: false)
+                    InstructorID = table.Column<int>(type: "int", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OfficeAssignments", x => x.InstructorID);
                     table.ForeignKey(
-                        name: "FK_OfficeAssignments_Instructor_InstructorID1",
-                        column: x => x.InstructorID1,
+                        name: "FK_OfficeAssignments_Instructor_InstructorID",
+                        column: x => x.InstructorID,
                         principalTable: "Instructor",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -175,11 +174,6 @@ namespace ContosoUniversity.Migrations
                 name: "IX_Enrollment_StudentID",
                 table: "Enrollment",
                 column: "StudentID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OfficeAssignments_InstructorID1",
-                table: "OfficeAssignments",
-                column: "InstructorID1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

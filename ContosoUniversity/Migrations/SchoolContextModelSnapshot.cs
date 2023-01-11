@@ -55,6 +55,11 @@ namespace ContosoUniversity.Migrations
                     b.Property<decimal>("Budget")
                         .HasColumnType("money");
 
+                    b.Property<byte[]>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<int?>("InstructorID")
                         .HasColumnType("int");
 
@@ -128,12 +133,6 @@ namespace ContosoUniversity.Migrations
             modelBuilder.Entity("ContosoUniversity.Models.OfficeAssignment", b =>
                 {
                     b.Property<int>("InstructorID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InstructorID"), 1L, 1);
-
-                    b.Property<int>("InstructorID1")
                         .HasColumnType("int");
 
                     b.Property<string>("Location")
@@ -141,8 +140,6 @@ namespace ContosoUniversity.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("InstructorID");
-
-                    b.HasIndex("InstructorID1");
 
                     b.ToTable("OfficeAssignments");
                 });
@@ -231,8 +228,8 @@ namespace ContosoUniversity.Migrations
             modelBuilder.Entity("ContosoUniversity.Models.OfficeAssignment", b =>
                 {
                     b.HasOne("ContosoUniversity.Models.Instructor", "Instructor")
-                        .WithMany("OfficeAssignment")
-                        .HasForeignKey("InstructorID1")
+                        .WithOne("OfficeAssignment")
+                        .HasForeignKey("ContosoUniversity.Models.OfficeAssignment", "InstructorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
